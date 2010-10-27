@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+$:.unshift(File.dirname(__FILE__) + '/../lib') unless $:.include?(File.dirname(__FILE__) + '/../lib')
+require 'twdo'
+
+@cmds = {}
+def cmd name, &block
+  @cmds[name] = block
+end
+
+cmd :list do
+  @twd.list.each_with_index do |t, i|
+    prefix = t[1] == :done ? '[*]' : '[ ]'
+    puts "(#{i}) #{prefix} #{t[0]}"
+  end
+end
+
+cmd :init do |args|
+  @twd.init(args)
+  @twd.update!
+  puts 'done.'
+end
+
+cmd :add do |args|
+  args.each {|arg| @twd.add(arg) }
+  @twd.update!
+  puts 'done.'
+end
+
+[:del, :done, :undo].each do |c|
+  cmd c do |args|
+    args.each do |arg|
+      arg = arg =~ /^\d+$/ ? arg.to_i : arg
+      @twd.send(c, arg)
+    end
+    @twd.update!
+    puts 'done.'
+  end
+end
+
+cmd :help do
+  puts <<-EOS
+Usage:
+  twdo command [task1, task2 ...]
+Commands:
+  twdo init task1 task2 ...          init with tasks.
+  twdo list                          list tasks.
+  twdo add task1 task2 ...           add tasks.
+  twdo del task1 task2 ...           del tasks.
+  twdo done task1 task2 ...          mark task as done.
+  twdo undo task1 task2 ...          mark task as not done.
+  twdo help                          show this help.
+  EOS
+end
+
+begin
+  @twd = TwDo.new
+  @twd.api = TwDo::API.new
+
+  c = ARGV.shift
+  if !c
+    @cmds[:help].call
+    exit 1
+  end
+
+  if @cmds[c.to_sym]
+    @cmds[c.to_sym].call(ARGV)
+  else
+    raise TwDo::Error, 'command not found.'
+  end
+rescue TwDo::Error => e
+  puts "Error: #{e}"
+end
