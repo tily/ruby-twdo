@@ -63,6 +63,15 @@ Twitter のプロフィールでタスク管理する TwDo コマンド
  * ヘルプを見る
 
         $ twdo help
+        Usage:
+          twdo command [task1, task2 ...]
+        Commands:
+          twdo init task1 task2 ...          init with tasks.
+          twdo list                          list tasks.
+          twdo add task1 task2 ...           add tasks.
+          twdo del task1 task2 ...           del tasks.
+          twdo done task1 task2 ...          mark task as done.
+          twdo undo task1 task2 ...          mark task as not done.
 
 インストール
 -------------
