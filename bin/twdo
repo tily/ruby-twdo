@@ -29,9 +29,11 @@ end
 
 [:del, :done, :undo].each do |c|
   cmd c do |args|
-    args.each do |arg|
-      arg = arg =~ /^\d+$/ ? arg.to_i : arg
-      @twd.send(c, arg)
+    names = args.map do |arg|
+      arg =~ /^\d+$/ ? @twd.list[arg.to_i][0] : arg
+    end
+    names.each do |name|
+      @twd.send(c, name)
     end
     @twd.update!
     puts 'done.'
