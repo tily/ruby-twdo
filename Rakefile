@@ -10,7 +10,11 @@ begin
     gem.email = "tily05@gmail.com"
     gem.homepage = "http://github.com/tily/ruby-twdo"
     gem.authors = ["tily"]
+    gem.add_dependency "oauth"
+    gem.add_dependency "twitter"
+    gem.add_dependency "oauth-cli-twitter"
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.executables = ["twdo"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
