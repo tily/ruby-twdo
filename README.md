@@ -79,7 +79,13 @@ Twitter のプロフィールでタスク管理する TwDo コマンド
 インストール
 -------------
 
+### Archive Installation
+
         rake install
+
+### Gem Installation
+
+        gem install twdo
 
 Copyright
 ---------
