@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'rubygems'
-require 'twitter'
 require 'oauth'
+require 'twitter'
 require 'oauth/cli/twitter'
 
 class TwDo
