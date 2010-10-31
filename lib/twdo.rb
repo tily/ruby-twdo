@@ -48,6 +48,9 @@ class TwDo
   operation(:del ) {|t, l| l.delete(t)  }
 
   def add(name)
+      if name =~ /^\d+$/
+          raise Error, 'task name can not be number.'
+      end
       if list.assoc(name)
           raise Error, 'task already exists.'
       end
